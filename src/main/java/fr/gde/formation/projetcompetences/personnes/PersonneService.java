@@ -20,17 +20,20 @@ public class PersonneService extends CRUDService<Personne> {
     /**
      * Méthode qui permet d'ajouter une compétence (avec son niveau) à une personne
      * et si celle-ci n'existe pas permet de la créer
-     * @param competence (avec niveau) à ajouter à la personne
+     * @param niveauCompetence à ajouter à la personne
      * @param idPersonne la personne concernée
      * @return la personne concernée
      */
-    public Personne addCompetence(NiveauCompetence competence, String idPersonne) {
+    public Personne addCompetence(NiveauCompetence niveauCompetence, String idPersonne) {
         Personne personne = this.findById(idPersonne);
-        if (competence.getCompetence().getId() == null) {
-            competenceService.save(competence.getCompetence());
+
+        // On vérifie si la compétence existe, sinon on la créer
+        if (niveauCompetence.getCompetence().getId() == null) {
+            competenceService.initCompetenceAvecSesNiveaux(niveauCompetence.getCompetence());
         }
 
-        personne.getCompetences().add(competence);
+        NiveauCompetence niveauCompetenceFromBdd = this.niveauCompetenceService.findByNiveauAndCompetence(niveauCompetence.getNiveau(), niveauCompetence.getCompetence());
+        personne.getCompetences().add(niveauCompetenceFromBdd);
         this.save(personne);
         return personne;
     }

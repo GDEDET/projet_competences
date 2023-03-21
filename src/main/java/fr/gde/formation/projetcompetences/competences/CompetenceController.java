@@ -20,7 +20,7 @@ public class CompetenceController {
 
     @PostMapping
     public Competence save(@RequestBody Competence document) {
-        return competenceService.save(document);
+        return competenceService.initCompetenceAvecSesNiveaux(document);
     }
 
     @GetMapping("{id}")

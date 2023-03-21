@@ -19,4 +19,9 @@ public class NiveauCompetence {
     private int niveau;
     @DBRef
     private List<NiveauCompetence> prerequis = new ArrayList<>();
+
+    public NiveauCompetence(Competence competence, int niveau) {
+        this.competence = competence;
+        this.niveau = niveau;
+    }
 }
