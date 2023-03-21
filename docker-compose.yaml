@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  mongo:
+    image: bitnami/mongodb
+    ports:
+      - "27017:27017" # Je connecte le port 27017 en local au port 27017 de mongodb
+  mongo-express: # Un Ui pour mongo
+    image: mongo-express
+    ports:
+      - "8081:8081"
