@@ -1,21 +1,19 @@
-# Projet demo pour MongoDB
+# Projet Competences
+
+## Présentation
+
+Ce projet a pour but de gérer les compétences d'une équipe
 
 ## Prérequis
 
-- [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/)
-- [IDE](https://www.jetbrains.com/idea/) (IntelliJ IDEA)
+- Java 17
+- IDE (IntelliJ, Eclipse, VSCode, ...)
 
 ## Installation
 
 - Cloner le projet
-- Lancer le projet avec la commande `docker-compose up -d`
-
-## Lancer l'application
-
-### Pour le développement
-
-Ouvrez le projet dans votre IDE et lancez la classe `DemoApplication`.
+- Importer le projet dans votre IDE
+- Lancer le projet avec la classe `ProjetCompetencesApplication`
 
 ## Documentation
 
