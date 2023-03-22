@@ -8,6 +8,6 @@ import java.util.Set;
 
 public interface NiveauCompetenceRepository extends CrudRepository<NiveauCompetence, Long> {
 
-    @Query("select nc from NiveauCompetence nc join nc.prerequis pr where pr IN :competences")
-    List<NiveauCompetence> findPrerequisByPersonneCompetences(Set<NiveauCompetence> competences);
+    @Query("select nc from NiveauCompetence nc join nc.prerequis pr where pr IN :prerequis")
+    List<NiveauCompetence> findPrerequisByPersonneCompetences(Set<NiveauCompetence> prerequis);
 }

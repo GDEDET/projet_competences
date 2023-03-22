@@ -2,6 +2,7 @@ package fr.gde.formation.projetcompetences.niveaucompetences;
 
 import fr.gde.formation.projetcompetences.competences.Competence;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,9 +17,12 @@ import java.util.Set;
 public class NiveauCompetence {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private Long id;
     @ManyToOne
     private Competence competence;
+    @Column(name = "niveau", nullable = false)
+    @NotBlank
     private int niveau;
     @ManyToMany
     @ToString.Exclude

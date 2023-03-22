@@ -50,11 +50,23 @@ public class PersonneService extends CRUDService<Personne> {
         return this.ajouterCompetence(idPersonne, nouvelleCompetence);
     }
 
+    /**
+     * Méthode qui permet de rechercher les compétences dont une personne a les prérequis
+     * @param idPersonne : la personne dont on cherche a connaitre les compétences accessibles
+     * @return la liste des compétences accessibles pour la personne donnée
+     */
     public List<NiveauCompetence> findPrerequisByPersonne(Long idPersonne){
         Personne personne = this.findById(idPersonne);
         return this.niveauCompetenceService.findPrerequisByPersonneCompetences(personne.getCompetences());
     }
 
+    /**
+     * Méthode qui permet de connaitre la liste des personnes qui possède un niveau supérieur à un niveau donné
+     * pour une compétence donnée.
+     * @param niveauBorne : le niveau qui borne la recherche
+     * @param idCompetence : l'id de la compétence dont on souhaite connaitre les personnes qualifiées
+     * @return la liste des personnes qui possède un niveau supérieur au niveau donné pour la compétence donnée
+     */
     public List<Personne> findPersonneNiveauSuperieurCompetence(int niveauBorne, Long idCompetence){
         Competence competence = this.competenceService.findById(idCompetence);
         return this.personneRepository.findPersonneNiveauSuperieurCompetence(niveauBorne, competence);

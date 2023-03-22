@@ -26,9 +26,19 @@ public abstract class CRUDService<T> {
     }
 
     /**
+     * Sauvegarde la donnée dans sa table MySQL.
+     * @param donnee à sauvegarder
+     * @return la donnee sauvegardé.
+     */
+    public T update(T donnee){
+        return this.repository.save(donnee);
+    }
+
+    /**
      * Retourne la donnée correspondant à l'identifiant id.
      * @param id de l'entité à retourner
      * @return l'entité correspondante à l'id
+     * @throws ResponseStatusException si aucune donnée ne porte cet id.
      */
     public T findById(Long id){
         return this.repository.findById(id).orElseThrow(

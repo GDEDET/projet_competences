@@ -21,6 +21,12 @@ public class CompetenceService extends CRUDService<Competence> {
         this.competenceRepository = competenceRepository;
     }
 
+    /**
+     * Méthode qui permet de créer une compétence et de créer les niveaux de base (sans prérequis) associés à celle-ci
+     * @param competence : la compétence que l'on souhaite créer
+     * @return la nouvelle compétence
+     * @throws ResponseStatusException si une compétence avec ce nom existe déjà.
+     */
     public Competence initCompetenceAvecSesNiveaux(Competence competence){
         if(this.findByNom(competence.getNom()) != null){
             log.warn("Une compétence avec ce nom existe déjà");
@@ -31,6 +37,11 @@ public class CompetenceService extends CRUDService<Competence> {
         return competence;
     }
 
+    /**
+     * Méthode qui permet de trouver une compétence par son nom
+     * @param nom : le nom de la compétence recherchée
+     * @return la compétence trouvée
+     */
     public Competence findByNom(String nom) {
         return competenceRepository.findByNom(nom);
     }

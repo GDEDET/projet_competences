@@ -1,9 +1,17 @@
 package fr.gde.formation.projetcompetences.niveaucompetences;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("niveaucompetences")
+@RequestMapping("niveaux-competences")
+@Tag(name = "Niveau de Compétence", description = "L'API de gestion des niveaux de compétences")
 public class NiveauCompetenceController {
 
     private final NiveauCompetenceService niveaucompetenceService;
@@ -12,33 +20,33 @@ public class NiveauCompetenceController {
         this.niveaucompetenceService = niveaucompetenceService;
     }
 
-    @PostMapping
-    public NiveauCompetence save(@RequestBody NiveauCompetence document) {
-        return niveaucompetenceService.save(document);
-    }
-
-    @GetMapping("{id}")
-    public NiveauCompetence findById(@PathVariable Long id) {
-        return niveaucompetenceService.findById(id);
-    }
-
-    @GetMapping
-    public Iterable<NiveauCompetence> findAll() {
-        return niveaucompetenceService.findAll();
-    }
-
-    @DeleteMapping("{id}")
-    public void deleteById(@PathVariable Long id) {
-        niveaucompetenceService.deleteById(id);
-    }
-
+    @Operation(summary = "Permet d'ajouter un prérequis à un niveau de compétence")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Niveau de compétence mise à jour",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = NiveauCompetence.class))}),
+            @ApiResponse(responseCode = "400", description = "Id fourni invalide",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Niveau de compétence non trouvé")
+    })
     @PutMapping("{idCompetence}/prerequis")
-    public NiveauCompetence ajouterPrerequis(@RequestBody NiveauCompetence prerequis, @PathVariable Long idCompetence) {
+    public NiveauCompetence ajouterPrerequis(@RequestBody NiveauCompetence prerequis,
+                                             @Parameter(description = "Id du niveau de compétence concerné par l'ajout") @PathVariable Long idCompetence) {
         return this.niveaucompetenceService.addPrerequis(prerequis, idCompetence);
     }
 
+    @Operation(summary = "Permet d'ajouter un prérequis à un niveau de compétence via l'Id du prérequis")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Niveau de compétence mise à jour",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = NiveauCompetence.class))}),
+            @ApiResponse(responseCode = "400", description = "Id fourni invalide",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Niveau de compétence ou Prérequis non trouvé")
+    })
     @PutMapping("{idCompetence}/prerequis/{idPrerequis}")
-    public NiveauCompetence ajouterPrerequis(@PathVariable Long idCompetence,@PathVariable Long idPrerequis) {
+    public NiveauCompetence ajouterPrerequis(@Parameter(description = "Id du niveau de compétence concerné par l'ajout") @PathVariable Long idCompetence,
+                                             @Parameter(description = "Id du prérequis à ajouter") @PathVariable Long idPrerequis) {
         return this.niveaucompetenceService.addPrerequis(idCompetence, idPrerequis);
     }
 

@@ -15,6 +15,8 @@ public class NiveauCompetenceService extends CRUDService<NiveauCompetence> {
 
     private final NiveauCompetenceRepository niveauCompetenceRepository;
 
+    private static final int NIVEAU_MAX = 10;
+
     public NiveauCompetenceService(NiveauCompetenceRepository niveauCompetenceRepository) {
         super(niveauCompetenceRepository);
         this.niveauCompetenceRepository = niveauCompetenceRepository;
@@ -45,13 +47,22 @@ public class NiveauCompetenceService extends CRUDService<NiveauCompetence> {
         return this.addPrerequis(prerequis, idCompetence);
     }
 
+    /**
+     * Méthode qui permet de créer les niveaux de compétences associés à une nouvelle compétence
+     * @param competence : la nouvelle compétence
+     */
     public void initNiveauxCompetence(Competence competence) {
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < NIVEAU_MAX+1; i++) {
             this.save(new NiveauCompetence(competence, i));
         }
     }
 
-    public List<NiveauCompetence> findPrerequisByPersonneCompetences(Set<NiveauCompetence> competences) {
-        return this.niveauCompetenceRepository.findPrerequisByPersonneCompetences(competences);
+    /**
+     * Méthode qui permet de rechercher les compétences (avec niveau) associées à une liste de prérequis
+     * @param prerequis : la liste des prérequis dont on souhaite connaitre les compétences associées
+     * @return la liste des compétences correspondantes aux prérequis fournis
+     */
+    public List<NiveauCompetence> findPrerequisByPersonneCompetences(Set<NiveauCompetence> prerequis) {
+        return this.niveauCompetenceRepository.findPrerequisByPersonneCompetences(prerequis);
     }
 }
