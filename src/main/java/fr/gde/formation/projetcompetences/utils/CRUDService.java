@@ -1,56 +1,54 @@
 package fr.gde.formation.projetcompetences.utils;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-
 /**
  * Classe de base pour les services contenant les méthodes CRUD.
- * @param <T> type du document.
+ * @param <T> type de donnee.
  */
 public abstract class CRUDService<T> {
 
-    private final MongoRepository<T, String> repository;
+    private final CrudRepository<T, Long> repository;
 
-    public CRUDService(MongoRepository<T, String> repository) {
+    public CRUDService(CrudRepository<T, Long> repository) {
         this.repository = repository;
     }
 
     /**
-     * Sauvegarde le document dans sa collection MongoDB.
-     * @param document à sauvegarder
-     * @return le document sauvegardé.
+     * Sauvegarde la donnée dans sa table MySQL.
+     * @param donnee à sauvegarder
+     * @return la donnee sauvegardé.
      */
-    public T save(T document){
-        return this.repository.save(document);
+    public T save(T donnee){
+        return this.repository.save(donnee);
     }
 
     /**
-     * Retourne le document correspondant à l'identifiant id.
+     * Retourne la donnée correspondant à l'identifiant id.
      * @param id de l'entité à retourner
      * @return l'entité correspondante à l'id
      */
-    public T findById(String id){
+    public T findById(Long id){
         return this.repository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Document non trouvé")
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Donnée non trouvée")
         );
     }
 
     /**
-     * Retourne la liste de tous les documents de la collection
-     * @return la liste de tous les documents de la collection
+     * Retourne la liste de toutes les données de la table
+     * @return la liste de toutes les données de la table
      */
-    public List<T> findAll(){
+    public Iterable<T> findAll(){
         return this.repository.findAll();
     }
 
     /**
-     * Supprime le document correspondant à l'identifiant id.
+     * Supprime la donnée correspondante à l'identifiant id.
      * @param id de l'entité à supprimer
      */
-    public void deleteById(String id){
+    public void deleteById(Long id){
         this.repository.deleteById(id);
     }
 

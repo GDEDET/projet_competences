@@ -3,8 +3,6 @@ package fr.gde.formation.projetcompetences.personnes;
 import fr.gde.formation.projetcompetences.niveaucompetences.NiveauCompetence;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("personnes")
 public class PersonneController {
@@ -16,7 +14,7 @@ public class PersonneController {
     }
 
     @GetMapping
-    public List<Personne> findAll() {
+    public Iterable<Personne> findAll() {
         return personneService.findAll();
     }
 
@@ -26,17 +24,17 @@ public class PersonneController {
     }
 
     @GetMapping("{id}")
-    public Personne findById(@PathVariable String id) {
+    public Personne findById(@PathVariable Long id) {
         return personneService.findById(id);
     }
 
     @DeleteMapping("{id}")
-    public void deleteById(@PathVariable String id) {
+    public void deleteById(@PathVariable Long id) {
         personneService.deleteById(id);
     }
 
     @PostMapping("/competence/{idPersonne}")
-    public Personne addCompetence(@RequestBody NiveauCompetence competence, @PathVariable String idPersonne) {
+    public Personne addCompetence(@RequestBody NiveauCompetence competence, @PathVariable Long idPersonne) {
         return personneService.addCompetence(competence, idPersonne);
     }
 }

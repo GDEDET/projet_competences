@@ -8,14 +8,12 @@ Ce projet a pour but de gérer les compétences d'une équipe
 
 - Java 17
 - IDE (IntelliJ, Eclipse, VSCode, ...)
-- [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/)
+- MySQL
 
 ## Installation
 
 - Cloner le projet
 - Importer le projet dans votre IDE
-- Lancer le projet avec la commande `docker-compose up -d`
 
 ## Lancer l'application
 

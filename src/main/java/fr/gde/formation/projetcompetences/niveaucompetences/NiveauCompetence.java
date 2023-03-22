@@ -1,24 +1,28 @@
 package fr.gde.formation.projetcompetences.niveaucompetences;
 
 import fr.gde.formation.projetcompetences.competences.Competence;
-import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
+import lombok.*;
+import java.util.HashSet;
+import java.util.Set;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Data
-@Document
+@Entity
+@Table(name="niveau_competence")
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class NiveauCompetence {
     @Id
-    private String id;
-    @DBRef
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @ManyToOne
     private Competence competence;
     private int niveau;
-    @DBRef
-    private List<NiveauCompetence> prerequis = new ArrayList<>();
+    @ManyToMany
+    @ToString.Exclude
+    private Set<NiveauCompetence> prerequis = new HashSet<>();
 
     public NiveauCompetence(Competence competence, int niveau) {
         this.competence = competence;

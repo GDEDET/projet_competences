@@ -24,7 +24,7 @@ public class PersonneService extends CRUDService<Personne> {
      * @param idPersonne la personne concernée
      * @return la personne concernée
      */
-    public Personne addCompetence(NiveauCompetence niveauCompetence, String idPersonne) {
+    public Personne addCompetence(NiveauCompetence niveauCompetence, Long idPersonne) {
         Personne personne = this.findById(idPersonne);
 
         // On vérifie si la compétence existe, sinon on la créer

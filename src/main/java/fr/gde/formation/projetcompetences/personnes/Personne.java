@@ -1,25 +1,30 @@
 package fr.gde.formation.projetcompetences.personnes;
 
 import fr.gde.formation.projetcompetences.niveaucompetences.NiveauCompetence;
-import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
+import lombok.*;
+import java.util.HashSet;
+import java.util.Set;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Document(collection = "personnes")
-@Data
+@Entity
+@Table(name="personne")
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Personne {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private Long id;
     private String nom;
     private String prenom;
     private Boolean isManager;
 
-    @DBRef
-    private List<NiveauCompetence> competences = new ArrayList<>();
+    @ManyToMany
+    @ToString.Exclude
+    private Set<NiveauCompetence> competences = new HashSet<>();
 
 }

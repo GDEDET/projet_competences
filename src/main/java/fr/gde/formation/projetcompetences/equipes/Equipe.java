@@ -1,23 +1,28 @@
 package fr.gde.formation.projetcompetences.equipes;
 
 import fr.gde.formation.projetcompetences.personnes.Personne;
-import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-@Data
-@Document
+@Entity
+@Table(name="equipe")
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Equipe {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     private String nom;
 
-    @DBRef
-    private List<Personne> membres = new ArrayList<>();
+    @ManyToMany
+    @ToString.Exclude
+    private Set<Personne> membres = new HashSet<>();
 }

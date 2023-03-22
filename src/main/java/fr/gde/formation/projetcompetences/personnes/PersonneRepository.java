@@ -1,6 +1,12 @@
 package fr.gde.formation.projetcompetences.personnes;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 
-public interface PersonneRepository extends MongoRepository<Personne, String> {
+import java.util.List;
+
+public interface PersonneRepository extends CrudRepository<Personne, Long> {
+
+//    @Query("")
+//    List<Personne> findPersonneNiveauSuperieurCompetence(int niveau, Competence competence);
 }

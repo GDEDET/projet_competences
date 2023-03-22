@@ -2,8 +2,6 @@ package fr.gde.formation.projetcompetences.niveaucompetences;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("niveaucompetences")
 public class NiveauCompetenceController {
@@ -20,17 +18,28 @@ public class NiveauCompetenceController {
     }
 
     @GetMapping("{id}")
-    public NiveauCompetence findById(@PathVariable String id) {
+    public NiveauCompetence findById(@PathVariable Long id) {
         return niveaucompetenceService.findById(id);
     }
 
     @GetMapping
-    public List<NiveauCompetence> findAll() {
+    public Iterable<NiveauCompetence> findAll() {
         return niveaucompetenceService.findAll();
     }
 
     @DeleteMapping("{id}")
-    public void deleteById(@PathVariable String id) {
+    public void deleteById(@PathVariable Long id) {
         niveaucompetenceService.deleteById(id);
     }
+
+    @PutMapping("{idCompetence}/prerequis")
+    public NiveauCompetence ajouterPrerequis(@RequestBody NiveauCompetence prerequis, @PathVariable Long idCompetence) {
+        return this.niveaucompetenceService.addPrerequis(prerequis, idCompetence);
+    }
+
+    @PutMapping("{idCompetence}/prerequis/{idPrerequis}")
+    public NiveauCompetence ajouterPrerequis(@PathVariable Long idCompetence,@PathVariable Long idPrerequis) {
+        return this.niveaucompetenceService.addPrerequis(idCompetence, idPrerequis);
+    }
+
 }

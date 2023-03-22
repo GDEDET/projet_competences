@@ -1,6 +1,6 @@
 package fr.gde.formation.projetcompetences.equipes;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface EquipeRepository extends MongoRepository<Equipe, String> {
+public interface EquipeRepository extends CrudRepository<Equipe, Long> {
 }
