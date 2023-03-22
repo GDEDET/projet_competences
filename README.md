@@ -23,3 +23,6 @@ Ce projet a pour but de gérer les compétences d'une équipe
 ## Documentation
 
 Vous trouverez la documentation de l'API sur la route: `/swagger-ui.html`
+
+Dans le cadre des tests l'utilisateur admin.admin est créé par défaut pour permettre l'utilisation de l'API
+après authentification via la route `/auth/login`

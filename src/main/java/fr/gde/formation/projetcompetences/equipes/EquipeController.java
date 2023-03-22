@@ -8,12 +8,16 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("equipes")
 @Tag(name = "Equipe", description = "L'API d'équipe")
+@Secured("PERSONNE")
+@SecurityRequirement(name = "Bearer Authentication")
 public class EquipeController {
 
     private final EquipeService equipeService;
@@ -29,6 +33,7 @@ public class EquipeController {
                             schema = @Schema(implementation = Equipe.class))})
     })
     @PostMapping
+    @Secured("MANAGER")
     public Equipe save(@RequestBody Equipe equipe) {
         return equipeService.save(equipe);
     }
@@ -40,6 +45,7 @@ public class EquipeController {
                             schema = @Schema(implementation = Equipe.class))})
     })
     @PutMapping
+    @Secured("MANAGER")
     public Equipe modifier(@RequestBody Equipe equipe) {
         return equipeService.update(equipe);
     }
@@ -76,6 +82,7 @@ public class EquipeController {
             @ApiResponse(responseCode = "404", description = "Equipe non trouvée")
     })
     @DeleteMapping("{id}")
+    @Secured("MANAGER")
     public void deleteById(@Parameter(description = "Id de l'équipe à supprimer") @PathVariable Long id) {
         equipeService.deleteById(id);
     }
@@ -90,6 +97,7 @@ public class EquipeController {
             @ApiResponse(responseCode = "404", description = "Equipe non trouvée")
     })
     @PutMapping("{idEquipe}/membres")
+    @Secured("MANAGER")
     public Equipe ajouterMembre(@Parameter(description = "Id de l'équipe concerné par l'ajout") @PathVariable Long idEquipe,
                                 @RequestBody Personne personne
     ) {
@@ -106,6 +114,7 @@ public class EquipeController {
             @ApiResponse(responseCode = "404", description = "Equipe ou personne non trouvée")
     })
     @PutMapping("{idEquipe}/membres/{idPersonne}")
+    @Secured("MANAGER")
     public Equipe ajouterMembre(@Parameter(description = "Id de l'équipe concerné par l'ajout") @PathVariable Long idEquipe,
                                 @Parameter(description = "Id de la personne à ajouter") @PathVariable Long idPersonne) {
         return equipeService.ajouterMembre(idEquipe, idPersonne);

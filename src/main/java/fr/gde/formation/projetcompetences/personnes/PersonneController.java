@@ -1,5 +1,6 @@
 package fr.gde.formation.projetcompetences.personnes;
 
+import fr.gde.formation.projetcompetences.auth.dto.RegisterRequestDto;
 import fr.gde.formation.projetcompetences.niveaucompetences.NiveauCompetence;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -8,7 +9,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +19,8 @@ import java.util.List;
 @RestController
 @RequestMapping("personnes")
 @Tag(name = "Personne", description = "L'API des personnes")
+@SecurityRequirement(name = "Bearer Authentication")
+@Secured("PERSONNE")
 public class PersonneController {
 
     private final PersonneService personneService;
@@ -38,11 +43,12 @@ public class PersonneController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Personne créée",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Personne.class))})
+                            schema = @Schema(implementation = RegisterRequestDto.class))})
     })
     @PostMapping
-    public Personne save(@RequestBody Personne entity) {
-        return personneService.save(entity);
+    @Secured("MANAGER")
+    public Personne save(@RequestBody RegisterRequestDto entity) {
+        return personneService.creerPersonne(entity);
     }
 
     @Operation(summary = "Met à jour une personne")
@@ -52,6 +58,7 @@ public class PersonneController {
                             schema = @Schema(implementation = Personne.class))})
     })
     @PutMapping
+    @Secured("MANAGER")
     public Personne modifier(@RequestBody Personne personne) {
         return personneService.update(personne);
     }

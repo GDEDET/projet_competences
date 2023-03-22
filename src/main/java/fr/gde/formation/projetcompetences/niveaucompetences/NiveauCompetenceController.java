@@ -6,11 +6,15 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("niveaux-competences")
+@Secured("MANAGER")
+@SecurityRequirement(name = "Bearer Authentication")
 @Tag(name = "Niveau de Compétence", description = "L'API de gestion des niveaux de compétences")
 public class NiveauCompetenceController {
 

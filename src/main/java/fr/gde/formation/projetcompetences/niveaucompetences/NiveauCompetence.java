@@ -22,7 +22,6 @@ public class NiveauCompetence {
     @ManyToOne
     private Competence competence;
     @Column(name = "niveau", nullable = false)
-    @NotBlank
     private int niveau;
     @ManyToMany
     @ToString.Exclude

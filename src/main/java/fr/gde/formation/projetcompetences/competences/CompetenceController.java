@@ -7,12 +7,16 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("competences")
 @Tag(name = "Compétence", description = "L'API des compétences")
+@Secured("PERSONNE")
+@SecurityRequirement(name = "Bearer Authentication")
 public class CompetenceController {
 
     private final CompetenceService competenceService;
@@ -28,6 +32,7 @@ public class CompetenceController {
                             schema = @Schema(implementation = Competence.class))}),
             @ApiResponse(responseCode = "409", description = "Une compétence avec ce nom existe déjà")
     })
+    @Secured("MANAGER")
     @PostMapping
     public Competence save(@RequestBody Competence competence) {
         return competenceService.initCompetenceAvecSesNiveaux(competence);
@@ -39,6 +44,7 @@ public class CompetenceController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = Competence.class))})
     })
+    @Secured("MANAGER")
     @PutMapping
     public Competence modifier(@RequestBody Competence competence) {
         return competenceService.update(competence);
@@ -76,6 +82,7 @@ public class CompetenceController {
             @ApiResponse(responseCode = "404", description = "Compétence non trouvée")
     })
     @DeleteMapping("{id}")
+    @Secured("MANAGER")
     public void deleteById(@Parameter(description = "Id de la compétence à supprimer") @PathVariable Long id) {
         competenceService.deleteById(id);
     }

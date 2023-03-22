@@ -1,14 +1,20 @@
 package fr.gde.formation.projetcompetences.personnes;
 
+import fr.gde.formation.projetcompetences.auth.dto.RegisterRequestDto;
+import fr.gde.formation.projetcompetences.auth.roles.Role;
+import fr.gde.formation.projetcompetences.auth.roles.RoleRepository;
 import fr.gde.formation.projetcompetences.competences.Competence;
 import fr.gde.formation.projetcompetences.competences.CompetenceService;
 import fr.gde.formation.projetcompetences.niveaucompetences.NiveauCompetence;
 import fr.gde.formation.projetcompetences.niveaucompetences.NiveauCompetenceService;
 import fr.gde.formation.projetcompetences.utils.CRUDService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonneService extends CRUDService<Personne> {
@@ -19,12 +25,37 @@ public class PersonneService extends CRUDService<Personne> {
 
     private final PersonneRepository personneRepository;
 
-    public PersonneService(PersonneRepository personneRepository, NiveauCompetenceService niveauCompetenceService, CompetenceService competenceService) {
+    private final RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public PersonneService(PersonneRepository personneRepository, NiveauCompetenceService niveauCompetenceService, CompetenceService competenceService, RoleRepository roleRepository) {
         super(personneRepository);
         this.niveauCompetenceService = niveauCompetenceService;
         this.personneRepository = personneRepository;
         this.competenceService = competenceService;
+        this.roleRepository = roleRepository;
     }
+
+    /**
+     * Permet de créer une personne en lui affectant le role personne par défaut et en encodant son mot de passe
+     *
+     * @param personneDto : les infos de la personne à creer
+     * @return la personne créée
+     */
+    public Personne creerPersonne(RegisterRequestDto personneDto){
+        Personne personne = new Personne();
+        personne.setUsername(personneDto.getUsername());
+        Optional<Role> personneRole = roleRepository.findByAuthority("PERSONNE");
+        personne.setRoles(List.of(personneRole.get()));
+        String password = passwordEncoder.encode(personneDto.getPassword());
+        personne.setPassword(password);
+        personne.setNom(personneDto.getNom());
+        personne.setPrenom(personneDto.getPrenom());
+        return this.personneRepository.save(personne);
+    }
+
 
     /**
      * Ajoute une compétence (avec son niveau) a la personne.
