@@ -3,6 +3,8 @@ package fr.gde.formation.projetcompetences.personnes;
 import fr.gde.formation.projetcompetences.niveaucompetences.NiveauCompetence;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("personnes")
 public class PersonneController {
@@ -33,8 +35,23 @@ public class PersonneController {
         personneService.deleteById(id);
     }
 
-    @PostMapping("/competence/{idPersonne}")
-    public Personne addCompetence(@RequestBody NiveauCompetence competence, @PathVariable Long idPersonne) {
-        return personneService.addCompetence(competence, idPersonne);
+    @PutMapping("{idPersonne}/competence")
+    public Personne ajouterCompetence(@PathVariable Long idPersonne, @RequestBody NiveauCompetence nouvelleCompetence) {
+        return personneService.ajouterCompetence(idPersonne, nouvelleCompetence);
+    }
+
+    @PutMapping("{idPersonne}/competence/{idCompetence}")
+    public Personne ajouterCompetence(@PathVariable Long idPersonne, @PathVariable Long idCompetence) {
+        return personneService.ajouterCompetence(idPersonne, idCompetence);
+    }
+
+    @GetMapping("{idPersonne}/competencesAccessibles")
+    public List<NiveauCompetence> findPrerequisByPersonne(@PathVariable Long idPersonne) {
+        return personneService.findPrerequisByPersonne(idPersonne);
+    }
+
+    @GetMapping("/niveau/{niveau}/competence/{idCompetence}")
+    public List<Personne> findPersonneNiveauSuperieurCompetence(@PathVariable int niveau, @PathVariable Long idCompetence) {
+        return personneService.findPersonneNiveauSuperieurCompetence(niveau, idCompetence);
     }
 }

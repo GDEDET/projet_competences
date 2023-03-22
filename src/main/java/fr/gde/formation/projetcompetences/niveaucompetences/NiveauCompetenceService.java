@@ -3,9 +3,11 @@ package fr.gde.formation.projetcompetences.niveaucompetences;
 import fr.gde.formation.projetcompetences.competences.Competence;
 import fr.gde.formation.projetcompetences.utils.CRUDService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -49,12 +51,7 @@ public class NiveauCompetenceService extends CRUDService<NiveauCompetence> {
         }
     }
 
-    public NiveauCompetence findByNiveauAndCompetence(int niveau, Competence competence) {
-        NiveauCompetence niveauCompetence = niveauCompetenceRepository.findByNiveauAndCompetence(niveau, competence);
-        if(niveauCompetence == null){
-            log.warn("Ce niveau de compétence n'existe pas");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ce niveau de compétence n'existe pas");
-        }
-        return niveauCompetence;
+    public List<NiveauCompetence> findPrerequisByPersonneCompetences(Set<NiveauCompetence> competences) {
+        return this.niveauCompetenceRepository.findPrerequisByPersonneCompetences(competences);
     }
 }
